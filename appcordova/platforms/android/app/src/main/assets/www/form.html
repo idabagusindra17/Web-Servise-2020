@@ -1,0 +1,101 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var no = decodeURI(getUrlVars()["no"]);
+        var tipe_mobil = decodeURI(getUrlVars()["tipe_mobil"]);
+        var tahun = decodeURI(getUrlVars()["tahun"]);
+        var sewa = decodeURI(getUrlVars()["sewa"]);
+        $("#no").val(no);
+        $("#tipe_mobil").val(tipe_mobil);
+        $("#tahun").val(tahun);
+        $("#sewa").val(sewa);
+        $("#update").click(function() {
+            var no = $("#no").val();
+            var tipe_mobil = $("#tipe_mobil").val();
+            var tahun = $("#tahun").val();
+            var sewa = $("#sewa").val();
+            var dataString = "no=" + no + "&tipe_mobil=" + tipe_mobil + "&tahun=" + tahun + "&sewa=" + sewa + "&update=";
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/appcordova/www/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var no = $("#no").val();
+            var dataString = "no=" + no + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "http://localhost/appcordova/www/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson.html">Read JSON</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <div class="form">
+            <label>No</label>
+            <input type="int" id="no" value="" />
+        </div>
+        <div class="form">
+            <label>Tipe Mobil</label>
+            <input type="varchar" id="tipe_mobil" value="" />
+        </div>
+        <div class="form">
+            <label>Tahun</label>
+            <input type="varchar" id="tahun" value="" />
+        </div>
+        <div class="form">
+            <label>Biaya Sewa</label>
+            <input type="mediumint" id="sewa" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>

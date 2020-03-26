@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var url = "http://localhost/appcordova/www/json.php";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var no = field.no;
+                var tipe_mobil = field.tipe_mobil;
+                var tahun = field.tahun;
+                var sewa = field.sewa;
+                $("#listview").append("<a class='item' href='form.html?no=" + no + "&tipe_mobil=" + tipe_mobil + "&tahun=" + tahun + "&sewa=" + sewa + "'><span class='item-note'>Rp" + sewa + "</span><h2>" + no + " </h2><h2>" + tipe_mobil + "</h2><p>" + tahun + "</p></a>");
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Read Database (JSON)</h1>
+    </div>
+    <br/>
+    <br/>
+    <ul class="list" id="listview">
+    </ul>
+</body>
+
+</html>

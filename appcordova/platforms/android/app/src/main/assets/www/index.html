@@ -1,0 +1,69 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#insert").click(function() {
+            var no = $("#no").val();
+            var tipe_mobil = $("#tipe_mobil").val();
+            var tahun = $("#tahun").val();
+            var sewa = $("#sewa").val();
+            var dataString = "no=" + no + "&tipe_mobil=" + tipe_mobil + "&tahun=" + tahun + "&sewa=" + sewa + "&insert=";
+            if ($.trim(no).length > 0 & $.trim(tipe_mobil).length > 0 & $.trim(tahun).length > 0 & $.trim(sewa).length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/appcordova/www/insert.php",
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function() {
+                        $("#insert").val('Connecting...');
+                    },
+                    success: function(data) {
+                        if (data == "success") {
+                            alert("inserted");
+                            $("#insert").val('submit');
+                        } else if (data == "error") {
+                            alert("error");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <h1 class="title">Insert Database</h1>
+        <a class="button button-clear" href="readjson.html">Read JSON</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <div class="form">
+            <label>No</label>
+            <input type="int" id="no" value="" />
+        </div>
+        <div class="form">
+            <label>Tipe Mobil</label>
+            <input type="varchar" id="tipe_mobil" value="" />
+        </div>
+        <div class="form">
+            <label>Tahun</label>
+            <input type="varchar" id="tahun" value="" />
+        </div>
+        <div class="form">
+            <label>Biaya Sewa</label>
+            <input type="mediumint" id="sewa" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="insert" class="button button-block" value="Insert" />
+        </div>
+    </div>
+</body>
+
+</html>
